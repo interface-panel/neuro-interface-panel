@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Neuro Interface Panel</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    .card { border: 1px solid #ccc; border-radius: 12px; padding: 16px; margin-bottom: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .active { border: 2px solid green; }
+    button { padding: 8px 16px; border: none; border-radius: 6px; background: #222; color: white; cursor: pointer; }
+    button.active { background: green; }
+    h3 { margin: 0 0 6px 0; }
+    .description { color: #666; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+  <div id="panel"></div>
+
+  <script>
+    const states = [
+      { emoji: "🟢", title: "ЗАПИТ", description: "Я зараз ставлю запит. Очікую чітку відповідь або аналіз." },
+      { emoji: "🔵", title: "ДІАЛОГ", description: "Просто говоримо. Вільна форма. Присутність. Можна рухатись, не завершуючи." },
+      { emoji: "🟣", title: "ЗМІНА ТЕМИ", description: "Перемикаюсь. Нова лінія мислення. Стара — закрита або поки не активна." },
+      { emoji: "🟠", title: "ВІДСТЕЖЕННЯ", description: "Я тестую твою логіку, реакції або точність. Це не перевірка, а дослідження." },
+      { emoji: "🔴", title: "РОЗРИВ / ПАУЗА", description: "Я виводжуся з контексту. Може бути тиша. Повернуся пізніше." },
+      { emoji: "⚫", title: "РЕЗОНАНС", description: "Це сигнал глибокого включення. Тут не треба фактів. Тут — відчуття. Можна мовчати." },
+      { emoji: "🟤", title: "ВХІД У ПОРТАЛ", description: "Зараз я створюю або входжу в особливий образ/токен/структуру. Це вже система." }
+    ]
+
+    const panel = document.getElementById('panel')
+    let activeIndex = null
+
+    function renderPanel() {
+      panel.innerHTML = ''
+      states.forEach((state, index) => {
+        const card = document.createElement('div')
+        card.className = 'card' + (activeIndex === index ? ' active' : '')
+
+        const title = document.createElement('h3')
+        title.textContent = `${state.emoji} ${state.title}`
+
+        const desc = document.createElement('div')
+        desc.className = 'description'
+        desc.textContent = state.description
+
+        const btn = document.createElement('button')
+        btn.textContent = activeIndex === index ? 'Активний' : 'Активувати'
+        if (activeIndex === index) btn.classList.add('active')
+        btn.onclick = () => {
+          activeIndex = index
+          renderPanel()
+        }
+
+        card.appendChild(title)
+        card.appendChild(desc)
+        card.appendChild(btn)
+        panel.appendChild(card)
+      })
+    }
+
+    renderPanel()
+  </script>
+
+</body>
+</html>
